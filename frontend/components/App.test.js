@@ -21,7 +21,7 @@ describe( 'AppFunctional Testing', () => {
     right = screen.getByText('RIGHT')
     down = screen.getByText('DOWN')
     reset = screen.getByText('reset')
-    submit = screen.getByTestId('submit')
+    submit = document.getElementById('submit')
     emailInput = screen.getByPlaceholderText('type email')
     steps = screen.getByTestId('steps')
   })
@@ -49,6 +49,7 @@ describe( 'AppFunctional Testing', () => {
   test('3 - submit works properly', async () => {
     await user.type(emailInput, 'ladyGaga@gmail.com')
     await user.click(submit)
+
     expect (await screen.findByText('ladyGaga win #30')).toBeVisible()
   })
 
