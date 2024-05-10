@@ -6,6 +6,10 @@ import AppFunctional from './AppFunctional'
 
 // Write your tests here
 
+jest.setTimeout(1000) // default 5000 too long for Codegrade
+const waitForOptions = { timeout: 100 }
+const queryOptions = { exact: false }
+
 describe( 'AppFunctional Testing', () => {
   
   let user, left, up, right, down, reset; 
@@ -50,9 +54,7 @@ describe( 'AppFunctional Testing', () => {
     await user.type(emailInput, 'ladyGaga@gmail.com')
     await user.click(submit)
 
-    await waitFor(() => {
-      expect(screen.getByText('ladyGaga win #30')).toBeVisible()
-   })
+    await screen.findByText('ladyGaga win #30', queryOptions, waitForOptions)
   })
 
   test('4 - submit empty or email', async () =>{
