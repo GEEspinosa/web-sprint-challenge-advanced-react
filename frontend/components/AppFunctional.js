@@ -89,8 +89,8 @@ export default function AppFunctional(props) {
   return (
     <div id="wrapper" className={props.className}>
       <div className="info">
-        <h3 id="coordinates">{getXYMessage()}</h3>
-        <h3 id="steps">{steps !== 1 ? `You moved ${steps} times`: `You moved ${steps} time`}</h3>
+        <h3 id="coordinates" data-testid = 'coordinates'>{getXYMessage()}</h3>
+        <h3 id="steps" data-testid = 'steps'>{steps !== 1 ? `You moved ${steps} times`: `You moved ${steps} time`}</h3>
       </div>
       <div id="grid">
         {
@@ -113,7 +113,7 @@ export default function AppFunctional(props) {
       </div>
       <form>
         <input id="email" type="email" placeholder="type email" value = {email} onChange = {onChange}></input>
-        <input id="submit" type="submit" onClick= {onSubmit}></input>
+        <input id='submit' data-testid="submit" type="submit" onClick= {onSubmit}></input>
       </form>
     </div>
   )

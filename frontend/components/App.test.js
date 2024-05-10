@@ -5,21 +5,25 @@ import '@testing-library/jest-dom'
 import AppFunctional from './AppFunctional'
 
 // Write your tests here
-// test('sanity', () => {
-//   expect(true).toBe(false)
-// })
 
 describe( 'AppFunctional Testing', () => {
-  let user, left, up, right, down, reset, submit
+  
+  let user, left, up, right, down, reset; 
+  let submit, emailInput
+  let steps
+
+
   beforeEach(() => {
     render (<AppFunctional />)
     user = userEvent.setup()
     left = screen.getByText('LEFT')
     up = screen.getByText('UP')
-    right = screen.getByText('DOWN')
+    right = screen.getByText('RIGHT')
     down = screen.getByText('DOWN')
     reset = screen.getByText('reset')
-    submit = screen.getByText('Submit')
+    submit = screen.getByTestId('submit')
+    emailInput = screen.getByPlaceholderText('type email')
+    steps = screen.getByTestId('steps')
   })
 
   test('1 - Coordinates are correct', async () => {
@@ -28,6 +32,7 @@ describe( 'AppFunctional Testing', () => {
     await user.click(right)
     expect(await screen.findByText('Coordinates (2, 3)')).toBeVisible()
     expect(await screen.findByText('You moved 3 times')).toBeVisible()
+    expect(steps).toHaveTextContent('You moved 3 times')
 
   })
 
@@ -38,16 +43,25 @@ describe( 'AppFunctional Testing', () => {
     await user.click(reset)
     expect(await screen.findByText('Coordinates (2, 2)')).toBeVisible()
     expect(await screen.findByText('You moved 0 times')).toBeVisible()
-
+    // 
   })
 
   test('3 - submit works properly', async () => {
-
+    await user.type(emailInput, 'ladyGaga@gmail.com')
+    await user.click(submit)
+    expect (await screen.findByText('ladyGaga win #30')).toBeVisible()
   })
 
+  test('4 - submit empty or email', async () =>{
+    await user.click(submit)
+    expect (await screen.findByText('Ouch: email is required')).toBeVisible()
+  })
 
-
-
+  test('5 - submit foo@bar.baz email', async() => {
+    await user.type(emailInput, 'foo@bar.baz')
+    await user.click(submit)
+    expect(await screen.findByText('foo@bar.baz failure #23')).toBeVisible()
+  })
 }
 
 
