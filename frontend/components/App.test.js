@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom'
 import AppFunctional from './AppFunctional'
@@ -21,7 +21,7 @@ describe( 'AppFunctional Testing', () => {
     right = screen.getByText('RIGHT')
     down = screen.getByText('DOWN')
     reset = screen.getByText('reset')
-    submit = document.getElementById('submit')
+    submit = screen.getByTestId('submit')
     emailInput = screen.getByPlaceholderText('type email')
     steps = screen.getByTestId('steps')
   })
@@ -50,7 +50,9 @@ describe( 'AppFunctional Testing', () => {
     await user.type(emailInput, 'ladyGaga@gmail.com')
     await user.click(submit)
 
-    expect (await screen.findByText('ladyGaga win #30')).toBeVisible()
+    await waitFor(() => {
+      expect(screen.getByText('ladyGaga win #30')).toBeVisible()
+   })
   })
 
   test('4 - submit empty or email', async () =>{
