@@ -63,8 +63,4 @@ describe( 'AppFunctional Testing', () => {
     expect(await screen.findByText('foo@bar.baz failure #23')).toBeVisible()
   })
 }
-
-
-
-
 )
