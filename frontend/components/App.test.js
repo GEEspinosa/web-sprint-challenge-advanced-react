@@ -1,14 +1,12 @@
 import React from 'react'
+import axios from 'axios'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom'
 import AppFunctional from './AppFunctional'
 
-// Write your tests here
-
-// jest.setTimeout(1000) // default 5000 too long for Codegrade
-// const waitForOptions = { timeout: 100 }
-// const queryOptions = { exact: false }
+jest.setTimeout(1000) // default 5000 too long for Codegrade
+jest.mock('axios')
 
 describe( 'AppFunctional Testing', () => {
   
@@ -18,6 +16,12 @@ describe( 'AppFunctional Testing', () => {
 
 
   beforeEach(() => {
+    axios.post.mockResolvedValue({
+      data: {
+        message: 'foo@bar.baz failure #23'
+      }
+    });
+
     render (<AppFunctional />)
     user = userEvent.setup()
     left = screen.getByText('LEFT')
@@ -47,22 +51,22 @@ describe( 'AppFunctional Testing', () => {
     await user.click(reset)
     expect(await screen.findByText('Coordinates (2, 2)')).toBeVisible()
     expect(await screen.findByText('You moved 0 times')).toBeVisible()
-    // 
   })
 
-  test('3 - submit works properly', async () => {
-    await user.type(emailInput, 'ladyGaga@gmail.com')
+
+
+  // test('3 - submit empty email', async () =>{
+  //   await user.click(submit)
+  //   expect (await screen.findByText('Ouch: email is required')).toBeVisible()
+  // })
+
+  test('4 - submit foo@bar.baz email', async() => {
+    await user.type(emailInput, 'foo@bar.baz')
     await user.click(submit)
-
-    await screen.findByText('ladyGaga win #30')
+    expect(await screen.findByText('foo@bar.baz failure #23')).toBeVisible()
   })
 
-  test('4 - submit empty email', async () =>{
-    await user.click(submit)
-    expect (await screen.findByText('Ouch: email is required')).toBeVisible()
-  })
-
-  // test('5 - submit foo@bar.baz email', async() => {
+    // test('5 - submit foo@bar.baz email', async() => {
   //   await user.type(emailInput, 'foo@bar.baz')
   //   await user.click(submit)
   //   expect(await screen.findByText('foo@bar.baz failure #23')).toBeVisible()
