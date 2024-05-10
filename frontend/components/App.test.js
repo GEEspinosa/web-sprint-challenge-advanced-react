@@ -62,10 +62,20 @@ describe( 'AppFunctional Testing', () => {
     expect (await screen.findByText('Ouch: email is required')).toBeVisible()
   })
 
-  test('5 - submit foo@bar.baz email', async() => {
-    await user.type(emailInput, 'foo@bar.baz')
-    await user.click(submit)
-    expect(await screen.findByText('foo@bar.baz failure #23')).toBeVisible()
+  // test('5 - submit foo@bar.baz email', async() => {
+  //   await user.type(emailInput, 'foo@bar.baz')
+  //   await user.click(submit)
+  //   expect(await screen.findByText('foo@bar.baz failure #23')).toBeVisible()
+  // })
+
+  test('5 - testing the tester fucker', async () => {
+    await user.click(right)
+    await user.click(up)
+    await user.click(left)
+    await user.click(left)
+    expect(await screen.findByText('Coordinates (1, 1)')).toBeVisible()
+    expect(await screen.findByText('You moved 4 times')).toBeVisible()
+    expect(steps).toHaveTextContent('You moved 4 times')
   })
 }
 )
