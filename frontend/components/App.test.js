@@ -57,7 +57,7 @@ describe( 'AppFunctional Testing', () => {
     await screen.findByText('ladyGaga win #30')
   })
 
-  test('4 - submit empty or email', async () =>{
+  test('4 - submit empty email', async () =>{
     await user.click(submit)
     expect (await screen.findByText('Ouch: email is required')).toBeVisible()
   })
@@ -66,6 +66,16 @@ describe( 'AppFunctional Testing', () => {
     await user.type(emailInput, 'foo@bar.baz')
     await user.click(submit)
     expect(await screen.findByText('foo@bar.baz failure #23')).toBeVisible()
+  })
+
+  test('6 - testing the tester fucker', async () => {
+    await user.click(right)
+    await user.click(up)
+    await user.click(left)
+    await user.click(left)
+    expect(await screen.findByText('Coordinates (1, 1)')).toBeVisible()
+    expect(await screen.findByText('You moved 4 times')).toBeVisible()
+    expect(steps).toHaveTextContent('You moved 4 times')
   })
 }
 )
